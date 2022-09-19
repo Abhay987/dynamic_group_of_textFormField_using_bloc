@@ -13,13 +13,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => ItemInfoCubit(),child: MaterialApp(
+/*    return BlocProvider(create: (context) => ItemInfoCubit(),child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dynamic TextFormField',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const MultiContactFormWidget(),
+    ),);    */
+
+    return BlocProvider(create: (context) => ItemDataCubit(),child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Dynamic TextFormField',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MultiItemFormWidget(),
     ),);
   }
 }

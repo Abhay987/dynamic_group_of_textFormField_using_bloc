@@ -79,3 +79,81 @@ class _MultiContactFormWidgetState extends State<MultiContactFormWidget> {
     debugPrint('\n\nThe index is : $index\n\n');
   }
 }
+
+
+class MultiItemFormWidget extends StatefulWidget {
+  const MultiItemFormWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MultiItemFormWidget> createState() => _MultiItemFormWidgetState();
+}
+
+class _MultiItemFormWidgetState extends State<MultiItemFormWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Dynamics Items'),),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        var itemDataCubit = context.read<ItemDataCubit>();
+        var mapValues = itemDataCubit.state.itemInfo;
+        var keysData = mapValues.keys;
+        var lastValueOfKey = keysData.isEmpty ? -1 : keysData.last;
+        var lastValueOfKeyUpdate = lastValueOfKey +1 ;
+        mapValues[lastValueOfKeyUpdate] = {'Qty_$lastValueOfKeyUpdate' : '0','Price_$lastValueOfKeyUpdate' : '0',
+          'Disc_$lastValueOfKeyUpdate' : '0','Amount_$lastValueOfKeyUpdate' : '0',};
+        // itemInfoCubit.itemInfoStateUpdate(itemData: mapValues);
+        var widgetList = itemDataCubit.state.widgetList;
+        widgetList[lastValueOfKeyUpdate] = ContactFormItemWidget(widgetId: lastValueOfKeyUpdate, onRemove: () =>onRemove(indexValue: lastValueOfKeyUpdate));
+        // widgetList.putIfAbsent(lastValueOfKeyUpdate, () => ContactFormItemWidget(widgetId: lastValueOfKeyUpdate, onRemove: () =>onRemove(indexValue: lastValueOfKeyUpdate)));
+        itemDataCubit.itemDataStateUpdate(mapValues: mapValues, mapWidgets: widgetList);
+        // widgetList.add(ContactFormItemWidget(widgetId: lastValueOfKeyUpdate, onRemove: () => onRemove(indexValue: lastValueOfKeyUpdate)));
+        // itemInfoCubit.itemInfoStateUpdate(widgetList: widgetList,itemData: mapValues);
+      },child: const Icon(Icons.add),),
+      body: context.watch<ItemDataCubit>().state.widgetList.isEmpty ? const Center(child: Text('Text'),) : getData(widgetList: context.watch<ItemDataCubit>().state.widgetList),
+      // body: BlocBuilder<ItemDataCubit,ItemDataState>(builder: (context,newState){
+      //   if(newState.widgetList.isEmpty || newState.itemInfo.isEmpty) {
+      //     return const Center(child: Text('Press + button for add dynamic textFormField'),);
+      //   }
+      //   else {
+      //     return getData(widgetList: newState.widgetList);
+      //     // return ListView.builder(itemBuilder: (context,indexValue){
+      //     //   return newState.widgetList['$indexValue'] ?? Container();
+      //     // },itemCount: newState.widgetList.length,);
+      //
+      //   }
+      // },),
+    );
+  }
+
+  ListView getData({required Map<int,ContactFormItemWidget> widgetList}){
+    List<Widget> data = [];
+    var getAllKeys = widgetList.keys.toList();
+
+    for(int i=0; i<widgetList.length; i++) {
+      data.add(widgetList[getAllKeys[i]] ?? Text('Hlo_$i'));
+    }
+    return ListView(children: data,);
+  }
+
+  onRemove({required int indexValue}){
+    var itemDataCubit = context.read<ItemDataCubit>();
+    var widgetList = itemDataCubit.state.widgetList;
+    var mapValues = itemDataCubit.state.itemInfo;
+
+    widgetList.remove(indexValue);
+    mapValues.remove(indexValue);
+    // int index = widgetList.indexWhere((element) => element.widgetId == indexValue);
+    // widgetList.removeAt(index);
+    // mapValues.remove(indexValue);
+    // itemInfoCubit.itemInfoStateUpdate(widgetList: widgetList, itemData: mapValues);
+    // itemInfoCubit.itemInfoUpdate(itemData: mapValues);
+    // itemInfoCubit.updateWidgetList(widgetList: widgetList);
+    debugPrint('\\nThe widgetList is : $widgetList \n\nand the mapValues is : $mapValues\n\n');
+
+    itemDataCubit.itemDataStateUpdate(mapValues: mapValues, mapWidgets: widgetList);
+
+
+    // debugPrint('\n\nThe index is : $index\n\n');
+  }
+}
+

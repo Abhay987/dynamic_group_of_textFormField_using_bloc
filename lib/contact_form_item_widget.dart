@@ -24,16 +24,16 @@ class _ContactFormItemWidgetState extends State<ContactFormItemWidget> {
       children: [
         Text('Id : ${widget.widgetId}'),
       SizedBox(width: MediaQuery.of(context).size.width*.1,child: TextFormField(
-        // initialValue: '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Qty_${widget.widgetId}']}',
-        controller: TextEditingController()..text = '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Qty_${widget.widgetId}']}',
-        onChanged: (value){
-          num qtyValue = num.tryParse(value) ?? 0;
-          var itemInfoCubit = context.read<ItemInfoCubit>();
-          var mapValue = itemInfoCubit.state.itemInfo;
-          mapValue[widget.widgetId]!['Qty_${widget.widgetId}'] = qtyValue;
-          mapValue[widget.widgetId]!['Amount_${widget.widgetId}'] = qtyValue * mapValue[widget.widgetId]!['Price_${widget.widgetId}'];
-          itemInfoCubit.itemInfoStateUpdate(widgetList: itemInfoCubit.state.widgetList, itemData: mapValue);
-        },
+        // // initialValue: '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Qty_${widget.widgetId}']}',
+        // controller: TextEditingController()..text = '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Qty_${widget.widgetId}']}',
+        // onChanged: (value){
+        //   num qtyValue = num.tryParse(value) ?? 0;
+        //   var itemInfoCubit = context.read<ItemInfoCubit>();
+        //   var mapValue = itemInfoCubit.state.itemInfo;
+        //   mapValue[widget.widgetId]!['Qty_${widget.widgetId}'] = qtyValue;
+        //   mapValue[widget.widgetId]!['Amount_${widget.widgetId}'] = qtyValue * mapValue[widget.widgetId]!['Price_${widget.widgetId}'];
+        //   itemInfoCubit.itemInfoStateUpdate(widgetList: itemInfoCubit.state.widgetList, itemData: mapValue);
+        // },
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 12),
           border: OutlineInputBorder(),
@@ -42,16 +42,16 @@ class _ContactFormItemWidgetState extends State<ContactFormItemWidget> {
         ),
       ),),
       SizedBox(width: MediaQuery.of(context).size.width*.1,child: TextFormField(
-        // initialValue: '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Price_${widget.widgetId}']}',
-        controller: TextEditingController()..text = '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Price_${widget.widgetId}']}',
-        onChanged: (value){
-          num qtyValue = num.tryParse(value) ?? 0;
-          var itemInfoCubit = context.read<ItemInfoCubit>();
-          var mapValue = itemInfoCubit.state.itemInfo;
-          mapValue[widget.widgetId]!['Price_${widget.widgetId}'] = qtyValue;
-          mapValue[widget.widgetId]!['Amount_${widget.widgetId}'] = qtyValue * mapValue[widget.widgetId]!['Qty_${widget.widgetId}'];
-          itemInfoCubit.itemInfoStateUpdate(widgetList: itemInfoCubit.state.widgetList, itemData: mapValue);
-        },
+        // // initialValue: '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Price_${widget.widgetId}']}',
+        // controller: TextEditingController()..text = '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Price_${widget.widgetId}']}',
+        // onChanged: (value){
+        //   num qtyValue = num.tryParse(value) ?? 0;
+        //   var itemInfoCubit = context.read<ItemInfoCubit>();
+        //   var mapValue = itemInfoCubit.state.itemInfo;
+        //   mapValue[widget.widgetId]!['Price_${widget.widgetId}'] = qtyValue;
+        //   mapValue[widget.widgetId]!['Amount_${widget.widgetId}'] = qtyValue * mapValue[widget.widgetId]!['Qty_${widget.widgetId}'];
+        //   itemInfoCubit.itemInfoStateUpdate(widgetList: itemInfoCubit.state.widgetList, itemData: mapValue);
+        // },
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 12),
           border: OutlineInputBorder(),
@@ -60,15 +60,15 @@ class _ContactFormItemWidgetState extends State<ContactFormItemWidget> {
         ),
       ),),
       SizedBox(width: MediaQuery.of(context).size.width*.1,child: TextFormField(
-        // initialValue: '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Disc_${widget.widgetId}']}',
-        controller: TextEditingController()..text = '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Disc_${widget.widgetId}']}',
-        onChanged: (value){
-          num qtyValue = num.tryParse(value) ?? 0;
-          var itemInfoCubit = context.read<ItemInfoCubit>();
-          var mapValue = itemInfoCubit.state.itemInfo;
-          mapValue[widget.widgetId]!['Disc_${widget.widgetId}'] = qtyValue;
-          itemInfoCubit.itemInfoStateUpdate(widgetList: itemInfoCubit.state.widgetList, itemData: mapValue);
-        },
+        // // initialValue: '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Disc_${widget.widgetId}']}',
+        // controller: TextEditingController()..text = '${context.read<ItemInfoCubit>().state.itemInfo[widget.widgetId]!['Disc_${widget.widgetId}']}',
+        // onChanged: (value){
+        //   num qtyValue = num.tryParse(value) ?? 0;
+        //   var itemInfoCubit = context.read<ItemInfoCubit>();
+        //   var mapValue = itemInfoCubit.state.itemInfo;
+        //   mapValue[widget.widgetId]!['Disc_${widget.widgetId}'] = qtyValue;
+        //   itemInfoCubit.itemInfoStateUpdate(widgetList: itemInfoCubit.state.widgetList, itemData: mapValue);
+        // },
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 12),
           border: OutlineInputBorder(),
@@ -76,9 +76,9 @@ class _ContactFormItemWidgetState extends State<ContactFormItemWidget> {
           labelText: "Disc(%)",
         ),
       ),),
-      BlocBuilder<ItemInfoCubit,ItemInfoState>(builder: (context,state){
-        return Text('${state.itemInfo[widget.widgetId]!['Amount_${widget.widgetId}']}');
-      }),
+      // BlocBuilder<ItemInfoCubit,ItemInfoState>(builder: (context,state){
+      //   return Text('${state.itemInfo[widget.widgetId]!['Amount_${widget.widgetId}']}');
+      // }),
       IconButton(onPressed: (){
         widget.onRemove();
       }, icon: const Icon(Icons.minimize)),
