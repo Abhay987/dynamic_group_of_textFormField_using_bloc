@@ -109,7 +109,13 @@ class _MultiItemFormWidgetState extends State<MultiItemFormWidget> {
         // widgetList.add(ContactFormItemWidget(widgetId: lastValueOfKeyUpdate, onRemove: () => onRemove(indexValue: lastValueOfKeyUpdate)));
         // itemInfoCubit.itemInfoStateUpdate(widgetList: widgetList,itemData: mapValues);
       },child: const Icon(Icons.add),),
-      body: context.watch<ItemDataCubit>().state.widgetList.isEmpty ? const Center(child: Text('Text'),) : getData(widgetList: context.watch<ItemDataCubit>().state.widgetList),
+      // body: context.watch<ItemDataCubit>().state.widgetList.isEmpty ? const Center(child: Text('Text'),) : getData(widgetList: context.watch<ItemDataCubit>().state.widgetList),
+      body: BlocBuilder<ItemDataCubit,ItemDataState>(builder: (context,state){
+        if(state.widgetList.isEmpty) {
+          return const Center(child: Text('Press + buttton for add dynamic TextFormfield'),);
+        }
+        return getData(widgetList: state.widgetList);
+      },),
       // body: BlocBuilder<ItemDataCubit,ItemDataState>(builder: (context,newState){
       //   if(newState.widgetList.isEmpty || newState.itemInfo.isEmpty) {
       //     return const Center(child: Text('Press + button for add dynamic textFormField'),);
@@ -125,14 +131,20 @@ class _MultiItemFormWidgetState extends State<MultiItemFormWidget> {
     );
   }
 
-  ListView getData({required Map<int,ContactFormItemWidget> widgetList}){
-    List<Widget> data = [];
+  ReorderableListView getData({required Map<int,ContactFormItemWidget> widgetList}){
     var getAllKeys = widgetList.keys.toList();
 
-    for(int i=0; i<widgetList.length; i++) {
-      data.add(widgetList[getAllKeys[i]] ?? Text('Hlo_$i'));
-    }
-    return ListView(children: data,);
+    return ReorderableListView(scrollController: ScrollController(), onReorder: (oldIndex,newIndex){
+      setState(() {
+      });
+    },shrinkWrap: true,children: <Widget>[
+      for (int index = 0; index < widgetList.length; index += 1)
+        Container(
+          key: Key('$index'),
+         child: widgetList[getAllKeys[index]],
+        ),
+    ],);
+    // return ListView(children: data,);
   }
 
   onRemove({required int indexValue}){

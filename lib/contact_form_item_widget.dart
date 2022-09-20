@@ -1,6 +1,4 @@
-import 'package:dynamic_list/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactFormItemWidget extends StatefulWidget {
    final int widgetId;
