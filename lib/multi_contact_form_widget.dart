@@ -114,7 +114,7 @@ class _MultiItemFormWidgetState extends State<MultiItemFormWidget> {
         if(state.widgetList.isEmpty) {
           return const Center(child: Text('Press + buttton for add dynamic TextFormfield'),);
         }
-        return getData(widgetList: state.widgetList);
+        return getData(context: context,widgetList: state.widgetList);
       },),
       // body: BlocBuilder<ItemDataCubit,ItemDataState>(builder: (context,newState){
       //   if(newState.widgetList.isEmpty || newState.itemInfo.isEmpty) {
@@ -131,17 +131,40 @@ class _MultiItemFormWidgetState extends State<MultiItemFormWidget> {
     );
   }
 
-  ReorderableListView getData({required Map<int,ContactFormItemWidget> widgetList}){
-    var getAllKeys = widgetList.keys.toList();
-
+  ReorderableListView getData({required BuildContext context,required Map<int,ContactFormItemWidget> widgetList}){
+    // var getAllKeys = widgetList.keys.toList();
+    // var getAllValuesNew = widgetList.values.toList();
+    var getAllValues = widgetList;
     return ReorderableListView(scrollController: ScrollController(), onReorder: (oldIndex,newIndex){
-      setState(() {
-      });
-    },shrinkWrap: true,children: <Widget>[
+      if (oldIndex < newIndex) {
+        newIndex -= 1;
+      }
+      var oldIndexData =  getAllValues.remove(getAllValues[oldIndex]);
+      // var newIndexData = getAllValues[newIndex];
+      // // var item = getAllValues.remove(oldIndex);
+      getAllValues[newIndex] = oldIndexData!;
+      // getAllValues[oldIndex] = newIndexData!;
+
+/*
+      var item = getAllKeys.removeAt(oldIndex);
+      getAllKeys.insert(newIndex, item);
+      var itemNew = getAllValuesNew.removeAt(oldIndex);
+      getAllValuesNew.insert(newIndex,itemNew);
+
+      Map<int,ContactFormItemWidget> mapData= {};
+
+      for(int i=0; i<getAllKeys.length; i++) {
+        mapData[getAllKeys[i]] = getAllValuesNew[i];
+      }
+*/
+
+      context.read<ItemDataCubit>().itemDataStateUpdate(mapValues: context.read<ItemDataCubit>().state.itemInfo, mapWidgets: getAllValues);
+
+    },children: <Widget>[
       for (int index = 0; index < widgetList.length; index += 1)
         Container(
           key: Key('$index'),
-         child: widgetList[getAllKeys[index]],
+         child: widgetList[index],
         ),
     ],);
     // return ListView(children: data,);
