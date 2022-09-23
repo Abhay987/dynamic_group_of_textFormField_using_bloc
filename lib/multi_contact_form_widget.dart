@@ -47,11 +47,145 @@ class _MultiContactFormWidgetState extends State<MultiContactFormWidget> {
       //     );
       //   }
       // },),
+        body: BlocBuilder<ItemInfoCubit,ItemInfoState>(builder: (context,itemInfoState){
+          var widgetList = itemInfoState.widgetList;
+          if(widgetList.isEmpty) {
+            return const Center(child: Text('Press + button for add dynamic TextFormField'),);
+          }
+          else {
+            // return ReorderableListView.builder(itemBuilder: (context,index){
+            //   return Table(key: Key('$index'),
+            //     children: [
+            //       const TableRow(children: [
+            //         TableCell(child: Text('Id',style: TextStyle(fontSize: 20),)),
+            //         // TableCell(child: Text('Qty',style: TextStyle(fontSize: 20),)),
+            //         // TableCell(child: Text('Price',style: TextStyle(fontSize: 20),)),
+            //         // TableCell(child: Text('Disc',style: TextStyle(fontSize: 20),)),
+            //         // TableCell(child: Text('Action',style: TextStyle(fontSize: 20),)),
+            //
+            //       ]),
+            //       TableRow(children: [
+            //         TableCell(child: widgetList[index]),
+            //       ])
+            //     ],
+            //   );
+            //   // return Container(key: Key('$index'),child: widgetList[index],);
+            //
+            // }, itemCount: widgetList.length, onReorder: (oldIndex,newIndex){
+            //   if (oldIndex < newIndex) {
+            //     newIndex -= 1;
+            //   }
+            //   final item = widgetList.removeAt(oldIndex);
+            //   widgetList.insert(newIndex, item);
+            //   context.read<ItemInfoCubit>().itemInfoStateUpdate(widgetList: widgetList, itemData: itemInfoState.itemInfo);
+            // });
 
-      body: context.watch<ItemInfoCubit>().state.widgetList.isEmpty ? const Center(child: Text('Text'),) : getData(widgetList: context.watch<ItemInfoCubit>().state.widgetList),
+            return Padding(padding: const EdgeInsets.all(20),
+              child: SizedBox(
+                child: Table(border: TableBorder.all(color: Colors.black,width: 2),
+                  children:  [
+                  TableRow(
+                    children: [
+                      getHeader(),
+                    ]
+                  ),
+                  TableRow(
+                    children: [
+                      ReorderableListView.builder(
+                        itemBuilder: (context,index){
+                        return Container(key: Key('$index'),child: Column(
+                          children: [
+                            widgetList[index],
+                            const Divider(color: Colors.black,height: 2,),
+                          ],
+                        ),);
+                      }, itemCount: widgetList.length, onReorder: (oldIndex,newIndex){
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final item = widgetList.removeAt(oldIndex);
+                          widgetList.insert(newIndex, item);
+                          context.read<ItemInfoCubit>().itemInfoStateUpdate(widgetList: widgetList, itemData: itemInfoState.itemInfo);
+                      },shrinkWrap: true,),
+                    ]
+                  ),
+
+                ],),
+              ),
+            );
+          }
+        },),
+      // body: context.watch<ItemInfoCubit>().state.widgetList.isEmpty ? const Center(child: Text('Text'),) : getData(widgetList: context.watch<ItemInfoCubit>().state.widgetList),
     );
   }
 
+IntrinsicHeight getHeader() {
+    return IntrinsicHeight(
+      child: Row(mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+      children: const [
+
+        Expanded(flex: 4,
+            child: Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 20),child: Text('Item Details',style: TextStyle(fontSize: 15),),),)),
+        VerticalDivider(color: Colors.black,width: 2,),
+        Expanded(flex: 1,
+            child: Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 20),child: Text('Qty',style: TextStyle(fontSize: 15),),),)),
+        VerticalDivider(color: Colors.black,width: 2,),
+        Expanded(flex: 2,
+            child: Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 20),child: Text('Price',style: TextStyle(fontSize: 15),),),)),
+        VerticalDivider(color: Colors.black,width: 2,),
+        Expanded(flex: 1,
+            child: Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 20),child: Text('Disc(%)',style: TextStyle(fontSize: 15),),),)),
+        VerticalDivider(color: Colors.black,width: 2,),
+        Expanded(flex: 1,
+            child: Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 20),child: Text('Tax Rate',style: TextStyle(fontSize: 15),),),)),
+        VerticalDivider(color: Colors.black,width: 2,),
+        Expanded(flex: 2,
+            child: Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 20),child: Text('Amount',style: TextStyle(fontSize: 15),),),)),
+        VerticalDivider(color: Colors.black,width: 2,),
+        Expanded(flex: 1,
+            child: Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 20),child: Text('Action',style: TextStyle(fontSize: 15),),),)),
+
+
+        //
+        // SizedBox(width: MediaQuery.of(context).size.width*.2,child: const Center(child: Padding(
+        //   padding: EdgeInsets.symmetric(vertical: 20),
+        //   child: Text('Item Details',style: TextStyle(fontSize: 15),),
+        // ),)),
+        // const VerticalDivider(color: Colors.black,width: 2,),
+        //  SizedBox(width: MediaQuery.of(context).size.width*.1,child: const Center(child: Padding(
+        //    padding: EdgeInsets.symmetric(vertical: 20),
+        //    child: Text('Qty',style: TextStyle(fontSize: 15),),
+        //  ),)),
+        // const VerticalDivider(color: Colors.black,width: 2,),
+        // SizedBox(width: MediaQuery.of(context).size.width*.1,child: const Center(child: Padding(
+        //   padding: EdgeInsets.symmetric(vertical: 20),
+        //   child: Text('Price',style: TextStyle(fontSize: 15),),
+        // ),)),
+        // const VerticalDivider(color: Colors.black,width: 2,),
+        // SizedBox(width: MediaQuery.of(context).size.width*.1,child: const Center(child: Padding(
+        //   padding: EdgeInsets.symmetric(vertical: 20),
+        //   child: Text('Disc(%)',style: TextStyle(fontSize: 15),),
+        // ),)),
+        // const VerticalDivider(color: Colors.black,width: 2,),
+        // SizedBox(width: MediaQuery.of(context).size.width*.1,child: const Center(child: Padding(
+        //   padding: EdgeInsets.symmetric(vertical: 20),
+        //   child: Text('Tax Rate',style: TextStyle(fontSize: 15),),
+        // ),)),
+        // const VerticalDivider(color: Colors.black,width: 2,),
+        // SizedBox(width: MediaQuery.of(context).size.width*.1,child: const Center(child: Padding(
+        //   padding: EdgeInsets.symmetric(vertical: 20),
+        //   child: Text('Amount',style: TextStyle(fontSize: 15),),
+        // ),)),
+        // const VerticalDivider(color: Colors.black,width: 2,),
+        // SizedBox(width: MediaQuery.of(context).size.width*.1,child: const Center(child: Padding(
+        //   padding: EdgeInsets.symmetric(vertical: 20),
+        //   child: Text('Action',style: TextStyle(fontSize: 15),),
+        // ),)),
+      ],
+      ),
+    );
+}
 
  ListView getData({required List<ContactFormItemWidget> widgetList}){
     List<Widget> data = [];
